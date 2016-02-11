@@ -11,7 +11,7 @@ module Rblineprof
       profile = lineprof(regex, &block)
       new(profile)
     end
-    
+
     def self.profile_and_browse(regex = /./, &block)
       from_lineprof(regex, &block).browse
     end
@@ -45,22 +45,22 @@ module Rblineprof
       puts "Filenames:"
       profile.keys.sort.map { |fn| " - #{fn}" }.each { |line| puts line }
     end
-    
+
     def browse
       done = false
       while !done do
         highline.choose do |menu|
           menu.prompt = "Choose a file to view the profile of: "
-        
-          profile.keys.each do |filename|
+
+          profile.keys.sort.each do |filename|
             menu.choice(filename) { print_profile(filename) }
           end
-          
+
           menu.choice("Quit") { done = true }
         end
       end
     end
-    
+
     private
     def highline
       @highline ||= HighLine.new
